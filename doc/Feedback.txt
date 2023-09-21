@@ -1,0 +1,36 @@
+----Feedback from peer-reviewer----
+
+Hi! I think you did a great job overall. Files are deployed under appropriate directories. All the code chunks in the .qmd file are named in a very 
+explicit way.
+
+Some minor comments I have are:
+
+1)	When I knit the .qmd file, the output html file is created under the `src` folder instead of the `doc` folder. I think you can change the directory of the output object from the header of the .qmd file. 
+
+2)	If we want to have self-contained output html file, we could add the following to the header of the .qmd file.
+
+format:
+  html:
+    self-contained: true
+
+3)	When writing functions, the tidyverse style guide does not put a space after the function name. For example, from the line 142 of your .qmd file, we could write,
+
+compute_cbr <- function(population_data) {
+
+
+----Feedback from Victor----
+
+Remember to put spaces after commas (see line 279). You may want to add some extra spaces to align parts of code. 
+For example check lines 74-77 and 128-130. Also, revise the indentation rules for lines 144-146 (these lines should be aligned with each other). 
+
+It is good you took the code for writing paths relative to the root of the project. However, the example should several alternatives; 
+it would be preferable that you choose one of them rather than mixing them. 
+
+In your answer to question 5, you are not presenting any results. 
+Show what was computed (as needed) to give support to your response. 
+
+Lastly, you may programmatically include the results instead of hand writing the values in your answers. 
+For example, on line 417, use `r kenya_cdr[1]`. 
+
+Excellent work naming the chunks and answering the questions. 
+Your document was really easy to read.

@@ -1,0 +1,20 @@
+
+1) Update the output object directory to create it under the "doc" folder.
+(Metacomments: I attempted this by modifying the directory of the output object in the header of the .qmd file, 
+but it didn't yield the desired outcome. I'll give it another try to resolve this issue.)
+
+2) Ensure the qmd file is self-contained.
+
+3) Eliminate spaces after function names to maintain the tidy style.
+
+----
+
+4) Add spaces after commas (e.g., line 279). Also, align the lines (e.g., 74-77, 128-130). 
+Adjust the indentation for lines 144-146 to ensure proper alignment.
+
+5) Standardize the use of a single method to write relative paths and remove any alternative approaches.
+
+6) For question 5, provide the code that demonstrates your computations to support your interpretation.
+
+7) Dynamically include the results instead of manually writing values in the answers 
+(e.g., on line 417, use `r kenya_cdr[1]`).
