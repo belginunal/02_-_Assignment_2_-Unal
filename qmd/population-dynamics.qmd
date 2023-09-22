@@ -215,6 +215,35 @@ kenya_data$asfr
 sweden_data$asfr
 ```
 
+```{r visualize-asfr-kenya}
+# First, reorder the age variable (which is a factor) so that it has a meaningful order
+kenya_data |> mutate(
+    period = ordered(period)) |>
+  mutate(
+    low_age = parse_number(age),
+    age     = fct_reorder(ordered(age), low_age)) |>
+  select(!low_age) ->
+  kenya_data
+
+# A bar plot for Kenya
+ggplot(kenya_data, aes(x = age, y = asfr)) + geom_bar(stat = "identity") + facet_wrap(. ~ period)
+```
+
+```{r visualize-asfr-sweden}
+# First, reorder the age variable (which is a factor) so that it has a meaningful order
+sweden_data |> mutate(
+    period = ordered(period)) |>
+  mutate(
+    low_age = parse_number(age),
+    age     = fct_reorder(ordered(age), low_age)) |>
+  select(!low_age) ->
+  sweden_data
+
+# A bar plot for Sweden
+ggplot(sweden_data, aes(x = age, y = asfr)) + geom_bar(stat = "identity") + facet_wrap(. ~ period)
+```
+
+
 Answer: The data align with our observations of the Crude Birth Rate
 (CBR) values. In both Kenya and Sweden, the Age-Specific Fertility Rate
 (ASFR) values rise significantly from ages 20-24 to 40-44, which is
@@ -241,6 +270,7 @@ of length two. In general, how has the number of women changed in the
 world from 1950 to 2000? What about the total number of births in the
 world?
 
+
 ### Answer 3
 
 ```{r compute-tfr}
@@ -249,11 +279,10 @@ world?
 compute_tfr <- function(population_data) {
   population_data %>% 
     group_by(period) %>% 
-      summarise(tfr=5 * sum(asfr)) %>% 
+      summarise(tfr = 5 * sum(asfr)) %>% 
         pull()
 }
 ```
-
 
 
 ```{r apply-tfr}
@@ -274,7 +303,7 @@ compute_tfr <- function(population_data) {
 )
 
 # Compare how much these totals have changed
-(changes_totals <- totals_world[2,-1] / totals_world[1,-1])
+(changes_totals <- totals_world[2, -1] / totals_world[1, -1])
 ```
 
 Answer: Of course, between the periods of 1950-1955 and 2005-2010, there
@@ -356,6 +385,12 @@ world_data  <- compute_asdr(world_data)
 kenya_data  <- compute_asdr(kenya_data)
 sweden_data <- compute_asdr(sweden_data)
 ```
+```{r visualize-asdr}
+ggplot(kenya_data, aes(x = age, y = asdr)) + geom_bar(stat = "identity") + facet_wrap(. ~ period)
+
+ggplot(sweden_data, aes(x = age, y = asdr)) + geom_bar(stat = "identity") + facet_wrap(. ~ period)
+```
+
 
 Answer: When we actually look at the Age-Specific Death Rate (ASDR)
 data, we see that in Sweden, a higher number of individuals pass away
@@ -412,8 +447,8 @@ mutate(kenya_data,
   summarise(cdrresweden = sum(temp_cdr))
 ```
 
-Answer: So the previous CDR results for Kenya were 1950-1955: 0.02396254
-and 2005-2010: 0.01038914 There does not seem to be much of a difference
+Answer: So the previous CDR results for Kenya were 1950-1955: `r kenya_cdr[1]`
+and 2005-2010: `r kenya_cdr[2]` There does not seem to be much of a difference
 for the period of 1950-1955. However, the counterfactual CDR for
 2005-2010 is higher than the original CDR. This does make sense,
 considering the older population of Sweden and Kenya's relatively
