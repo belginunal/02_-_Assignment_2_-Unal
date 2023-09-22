@@ -3,6 +3,7 @@ title: "Understanding World Population Dynamics"
 subtitle: "Assignment 1 - PSYC593"
 format:
   html: default
+    self-contained: true
 project:
   output-dir: ./doc/
 date: 9-8-2023
@@ -65,18 +66,14 @@ either `rprojroot` or `here` entirely avoids the issues associated
 setting the working directory.)
 
 ```{r path-variables}
-root_path <- rprojroot::is_rstudio_project        # Using rprojroot knowing this is an RStudio project
 here_path <- here::here()     
 
-crit_path <- rprojroot::find_root(has_dir("src")) # Using the directory structure we defined
-
 # Some of the subdirectories
-code_path <- file.path(root_path, "src")  
-docs_path <- here::here("doc")
+code_path <- file.path(here_path, "qmd")  
+docs_path <- file.path(here_path,"doc")
 data_path <- file.path(here_path, "data")
-results_path <- file.path(crit_path, "results") # in case we create some figures and tables
+# results_path <- file.path(crit_path, "results") # in case we create some figures and tables
 ```
-
 
 
 ```{r read-data, message = FALSE}
@@ -140,7 +137,7 @@ sweden_data$py <- sweden_data$py.men + sweden_data$py.women
 ```{r compute-cbr}
 # Function to compute the Crude Birth Rate (CBR)
 # The function takes the data frame as the input, and computes the CDR
-compute_cbr <- function (population_data) {
+compute_cbr <- function(population_data) {
   population_data %>% 
     group_by(period) %>% 
       summarise(cbr = sum(births) / sum(py)) %>% 
@@ -199,7 +196,7 @@ about reproduction among women in Sweden and Kenya?
 ```{r compute-asfr}
 # Function to compute Age specific fertility rate (ASFR)
 # This function also takes the data frame of the country as an input, computes the ASFR values, and add that as a column to the data frame
-compute_asfr <- function (population_data) {
+compute_asfr <- function(population_data) {
   population_data %>% 
     mutate(asfr = births / py.women)
 }
@@ -249,7 +246,7 @@ world?
 ```{r compute-tfr}
 # Function to compute the total fertility rate (TFR)
 # This function takes the country's data frame as input, and computes ASFR values
-compute_tfr <- function (population_data) {
+compute_tfr <- function(population_data) {
   population_data %>% 
     group_by(period) %>% 
       summarise(tfr=5 * sum(asfr)) %>% 
@@ -303,7 +300,7 @@ The CDR is defined as: $$
 ```{r compute-cdr}
 # Function to compute the Crude death rate (CDR)
 # This function takes the country's data frame as input, and computes the CDR values
-compute_cdr <- function (population_data) {
+compute_cdr <- function(population_data) {
   population_data %>% 
     group_by(period) %>% 
       summarise(cbr = sum(deaths) / sum(py)) %>% 
@@ -347,7 +344,7 @@ observe.
 # Function to compute Age specific death rate (ASDR)
 # This function tajes the country's population data as input and adds a new column
 # to the data frame for ASDR values
-compute_asdr <- function (population_data) {
+compute_asdr <- function(population_data) {
   population_data %>% 
     mutate(asdr = deaths / py)
 }
@@ -392,7 +389,7 @@ result.
 # Function to compute population proportion by period
 # This function takes the country's data frame as input and adds a new column to
 # the data frame for the proportion of population for counterfactual CDR
-compute_pop_prop <- function (population_data) {
+compute_pop_prop <- function(population_data) {
   population_data %>% 
     group_by(period) %>%
     mutate(pop_prop = py / sum(py)) %>%
